@@ -1,0 +1,31 @@
+<?php
+require_once 'BankAccount.php';
+
+class CurrentAccount extends BankAccount {
+    private float $overdraftLimit;
+
+    // Constructor
+    public function __construct(string $accountHolderName, string $accountNumber, float $balance, float $overdraftLimit) {
+        parent::__construct($accountHolderName, $accountNumber, $balance);
+        $this->overdraftLimit = $overdraftLimit;
+    }
+
+    // Override withdraw method
+    public function withdraw(float $amount) {
+        if ($this->getBalance() - $amount >= -$this->overdraftLimit) {
+            $this->setBalance($this->getBalance() - $amount);
+            echo "Withdrawal successful. New balance: GHS " . $this->getBalance() . PHP_EOL;
+        } else {
+            echo "Overdraft limit exceeded." . PHP_EOL;
+        }
+    }
+
+    // Override displayAccountDetails
+    public function displayAccountDetails() {
+        parent::displayAccountDetails();
+        echo "Overdraft Limit: GHS " . $this->overdraftLimit . PHP_EOL;
+    }
+
+    public function displayAccounDetails() {}
+}
+?>
